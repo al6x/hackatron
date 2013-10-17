@@ -43,7 +43,8 @@ _(helpers).extend
 app.route '', 'instances', ->
   helpers.setTitle 'Instances'
   $('#content').append _.render('instances-template')
-  for instance in app.instances
+  instances = _(app.instances).sortBy ({name}) -> name
+  for instance in instances
     instance = _({}).extend instance, path: "#instances/#{instance.id}"
     $('#instances').append _.render('instance-item-template', instance)
 

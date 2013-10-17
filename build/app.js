@@ -82,14 +82,19 @@
   });
 
   app.route('', 'instances', function() {
-    var instance, _i, _len, _ref, _results;
+    var instance, instances, _i, _len, _results;
 
     helpers.setTitle('Instances');
     $('#content').append(_.render('instances-template'));
-    _ref = app.instances;
+    instances = _(app.instances).sortBy(function(_arg) {
+      var name;
+
+      name = _arg.name;
+      return name;
+    });
     _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      instance = _ref[_i];
+    for (_i = 0, _len = instances.length; _i < _len; _i++) {
+      instance = instances[_i];
       instance = _({}).extend(instance, {
         path: "#instances/" + instance.id
       });
