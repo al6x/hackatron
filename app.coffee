@@ -8,7 +8,7 @@ global = window
 global.app = {}
 global.p   = console.log.bind(console)
 
-helpers    = {}
+helpers    = app.helpers = {}
 
 app.router = new Backbone.Router()
 app.routecCounter = 0
@@ -25,10 +25,19 @@ app.run = ->
 # Helpers.
 _(helpers).extend
   setTitle : (title) -> $('title, #title2, #title3').html title
+
   clear    : ->
     $('#content').empty()
     $('#back-button').hide().empty()
+
   backButton : (text, path) -> $('#back-button').show().attr(href: path).html(text)
+
+  autolink : (text, attrs) ->
+    return unless text
+    urlPattern = /(\b(https?):\/\/[\-A-Z0-9+&@#\/%?=~_|!:,.;]*[\-A-Z0-9+&@#\/%=~_|])/ig
+    buff = []
+    buff.push "#{key}='#{value}'" for key, value of attrs if attrs
+    text.replace urlPattern, "<a href='$1' " + buff.join(' ') + ">$1</a>"
 
 # Routes.
 app.route '', 'instances', ->
@@ -36,10 +45,10 @@ app.route '', 'instances', ->
   $('#content').append _.render('instances-template')
   for instance in app.instances
     instance = _({}).extend instance, path: "#instances/#{instance.id}"
-    $('#instances').append _.render('instance-template', instance)
+    $('#instances').append _.render('instance-item-template', instance)
 
 app.route 'instances/:id', (id) ->
   instance = _(app.instances).find((i) -> i.id == id) || throw new Error "instance #{id} not found!"
   helpers.setTitle instance.name
   helpers.backButton 'Instances', '#instances'
-  # $('#content')
+  $('#content').append _.render('instance-template', instance)

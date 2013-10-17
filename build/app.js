@@ -21,7 +21,7 @@
 
   global.p = console.log.bind(console);
 
-  helpers = {};
+  helpers = app.helpers = {};
 
   app.router = new Backbone.Router();
 
@@ -62,6 +62,22 @@
       return $('#back-button').show().attr({
         href: path
       }).html(text);
+    },
+    autolink: function(text, attrs) {
+      var buff, key, urlPattern, value;
+
+      if (!text) {
+        return;
+      }
+      urlPattern = /(\b(https?):\/\/[\-A-Z0-9+&@#\/%?=~_|!:,.;]*[\-A-Z0-9+&@#\/%=~_|])/ig;
+      buff = [];
+      if (attrs) {
+        for (key in attrs) {
+          value = attrs[key];
+          buff.push("" + key + "='" + value + "'");
+        }
+      }
+      return text.replace(urlPattern, "<a href='$1' " + buff.join(' ') + ">$1</a>");
     }
   });
 
@@ -77,7 +93,7 @@
       instance = _({}).extend(instance, {
         path: "#instances/" + instance.id
       });
-      _results.push($('#instances').append(_.render('instance-template', instance)));
+      _results.push($('#instances').append(_.render('instance-item-template', instance)));
     }
     return _results;
   });
@@ -91,7 +107,8 @@
       throw new Error("instance " + id + " not found!");
     })();
     helpers.setTitle(instance.name);
-    return helpers.backButton('Instances', '#instances');
+    helpers.backButton('Instances', '#instances');
+    return $('#content').append(_.render('instance-template', instance));
   });
 
 }).call(this);

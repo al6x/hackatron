@@ -39,20 +39,48 @@
         <ul id="instances" class="list"></ul>
       </textarea>
 
-      <!-- Instance. -->
-      <textarea id="instance-template">
+      <!-- Instance item. -->
+      <textarea id="instance-item-template">
         <li id="<%= id %>">
           <a href="<%= path %>">
             <%= name %>
             <span class="chevron"></span>
-            <% if(status == 'Running'){ %>
+            <% if (status == 'Running') { %>
               <span class="count-positive">Running</span>
             <% } %>
-            <% if(status == 'Failed'){ %>
+            <% if (status == 'Failed') { %>
               <span class="count-negative">Failed</span>
             <% } %>
           </a>
         </li>
+      </textarea>
+
+      <!-- Instance. -->
+      <textarea id="instance-template">
+        <div>
+          <% if (status == 'Running') { %>
+            <div class="content-padded">
+              <%= name %> is <span class="count-positive">running</span>
+            </div>
+          <% } %>
+
+          <% if (status == 'Failed') { %>
+            <div class="content-padded">
+              <%= name %> <span class="count-negative">failed</span> try Re-Launch it.
+            </div>
+
+            <div class="content-padded">
+              <a class="button-positive button-block">Re-Launch</a>
+            </div>
+          <% } %>
+
+          <ul class="inset list">
+            <% for (var i = 0; i < returnValues.length; i++) {%>
+              <% var property = returnValues[i] %>
+              <li class="text"><%= app.helpers.autolink(property.value) %></li>
+            <% } %>
+          </ul>
+        </div>
       </textarea>
     </div>
 
