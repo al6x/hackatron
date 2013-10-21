@@ -1,0 +1,70 @@
+.content {
+  margin: auto;
+  font-family: "Helvetica Neue", sans-serif;
+  width: 375px;
+}
+
+.content > * {
+  margin-top: 2em;
+}
+
+.content > .description {
+  text-align: center;
+}
+
+.iphone {
+  position: relative;
+  width: 375px;
+  height: 806px;
+  font-family: "Helvetica Neue", sans-serif;
+  background-image: url("iphone.png");
+}
+
+.iphone-fixed,
+.iphone-bottom {
+  left: 50%;
+  margin-left: 125px;
+}
+
+.iphone-fixed {
+  position: fixed;
+  top: 30px;
+}
+
+.iphone-bottom {
+  position: absolute;
+  top: auto;
+  bottom: 130px;
+}
+
+.iphone .iphone-content {
+  position: absolute;
+  top: 147px;
+  left: 27px;
+  width: 320px;
+  height: 548px;
+  overflow: hidden;
+  background-color: white;
+}
+
+.iphone .content,
+.component-example .content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.component-example .content {
+  position: relative;
+}
+
+/* Mad override to avoid it being styled like the block level link */
+.component-example .list a[data-transition="slide-out"],
+.iphone .list a[data-transition="slide-out"] {
+  padding: 0;
+  display: inline;
+  margin: 0;
+  color: #0882f0;
+}

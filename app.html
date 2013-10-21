@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <!-- Sets initial viewport load and disables zooming  -->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!-- Set a shorter title for iOS6 devices when saved to home screen -->
+    <meta name="apple-mobile-web-app-title" id="title2" content="">
+
+    <!-- Set Apple icons for when prototype is saved to home screen -->
+    <!-- <link rel="apple-touch-icon-precomposed" sizes="114x114" href="touch-icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="touch-icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="touch-icons/apple-touch-icon-57x57.png"> -->
+
+    <!-- Include the compiled Ratchet CSS -->
+    <link rel="stylesheet" href="ratchet.css">
+    <link rel="stylesheet" href="app.css">
+
+    <!-- Include the compiled Ratchet JS -->
+    <!-- <script src="ratchet.js"></script> -->
+    <script src="jquery.js"></script>
+    <script src="underscore.js"></script>
+    <script src="backbone.js"></script>
+    <script src="build/app.js"></script>
+    <script src="build/sample-data.js"></script>
+  </head>
+  <body>
+    <!-- Templates. -->
+    <div style="display: none;">
+      <!-- Instances. -->
+      <textarea id="instances-template">
+        <ul id="instances" class="list"></ul>
+      </textarea>
+
+      <!-- Instance item. -->
+      <textarea id="instance-item-template">
+        <li id="<%= id %>">
+          <a href="<%= path %>">
+            <%= name %>
+            <span class="chevron"></span>
+            <% if (status == 'Running') { %>
+              <span class="count-positive">Running</span>
+            <% } %>
+            <% if (status == 'Failed') { %>
+              <span class="count-negative">Failed</span>
+            <% } %>
+          </a>
+        </li>
+      </textarea>
+
+      <!-- Instance. -->
+      <textarea id="instance-template">
+        <div>
+          <% if (status == 'Running') { %>
+            <div class="content-padded">
+              <%= name %> is <span class="count-positive">running</span>
+            </div>
+          <% } %>
+
+          <% if (status == 'Failed') { %>
+            <div class="content-padded">
+              <%= name %> <span class="count-negative">failed</span> try Re-Launch it.
+            </div>
+
+            <div class="content-padded">
+              <a class="button-positive button-block">Re-Launch</a>
+            </div>
+          <% } %>
+
+          <ul class="inset list">
+            <% for (var i = 0; i < returnValues.length; i++) {%>
+              <% var property = returnValues[i] %>
+              <li class="text"><%= app.helpers.autolink(property.value) %></li>
+            <% } %>
+          </ul>
+        </div>
+      </textarea>
+    </div>
+
+  <!-- Title. -->
+  <header class="bar-title">
+    <a id="back-button" class="button-prev" href="#"></a>
+    <h1 id="title3" class="title"></h1>
+  </header>
+
+  <!-- Wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
+  <div id="content" class="content"></div>
+
+    <script>app.run()</script>
+  </body>
+</html>
